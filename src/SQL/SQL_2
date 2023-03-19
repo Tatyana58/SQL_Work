@@ -1,0 +1,121 @@
+/*Домашнее задание № 2
+## Задание 1
+
+1. Доведите количество записей в таблице до 5.
+2. Получите информацию об именах и фамилиях по всем сотрудникам. Колонки должны называться «Имя» и «Фамилия».
+3. Получите всю информацию о сотрудниках, которые младше 30 или старше 50 лет.
+4. Получите всю информацию о сотрудниках, которым от 30 до 50 лет.
+5. Выведите полный список сотрудников, которые отсортированы по фамилиям в обратном порядке.
+6. Выведите сотрудников, имена которых длиннее 4 символов.
+
+## Задание 2
+
+1. Измените имена у двух сотрудников так, чтобы на 5 сотрудников было только 3 разных имени, то есть чтобы получились две пары тезок и один сотрудник с уникальным именем.
+2. Посчитайте суммарный возраст для каждого имени. Выведите в двух столбцах «имя» и «суммарный возраст».
+3. Выведите имя и самый юный возраст, соответствующий имени.
+4. Выведите имя и максимальный возраст только для неуникальных имен. Результат отсортируйте по возрасту в порядке возрастания.
+*/
+
+skypro=# INSERT INTO employee(
+skypro(# first_name,last_name,gender,age)
+skypro-# values('Ivanov','Ivan','men',37);
+INSERT 0 1
+skypro=# INSERT INTO employee(
+skypro(# first_name,last_name,gender,age)
+skypro-# values('Kim','Denis','men',12);
+INSERT 0 1
+skypro=# INSERT INTO employee(
+skypro(# first_name,last_name,gender,age)
+skypro-# values('Orlova','Olga','women',8);
+INSERT 0 1
+skypro=# SELECT * FROM employee;
+ id | first_name | last_name | gender | age
+----+------------+-----------+--------+-----
+  3 | Marinina   | Marina    | women  |  24
+  2 | Pupkin     | Inga      | women  |  15
+  7 | Ivanov     | Ivan      | men    |  37
+  8 | Kim        | Denis     | men    |  12
+  9 | Orlova     | Olga      | women  |   8
+(5 строк)
+
+skypro=# SELECT last_name AS Имя, first_name AS Фамилия
+skypro-# FROM employee;
+  Имя   | Фамилия
+--------+----------
+ Marina | Marinina
+ Inga   | Pupkin
+ Ivan   | Ivanov
+ Denis  | Kim
+ Olga   | Orlova
+(5 строк)
+
+skypro=# SELECT *  FROM employee
+skypro-# WHERE age>50 OR age<30;
+ id | first_name | last_name | gender | age
+----+------------+-----------+--------+-----
+  3 | Marinina   | Marina    | women  |  24
+  2 | Pupkin     | Inga      | women  |  15
+  8 | Kim        | Denis     | men    |  12
+  9 | Orlova     | Olga      | women  |   8
+(4 строки)
+
+skypro=# SELECT *  FROM employee
+skypro-# WHERE age BETWEEN 30 AND 50;
+ id | first_name | last_name | gender | age
+----+------------+-----------+--------+-----
+  7 | Ivanov     | Ivan      | men    |  37
+(1 строка)
+
+skypro=# SELECT *  FROM employee
+skypro-# ORDER BY first_name DESC;
+ id | first_name | last_name | gender | age
+----+------------+-----------+--------+-----
+  2 | Pupkin     | Inga      | women  |  15
+  9 | Orlova     | Olga      | women  |   8
+  3 | Marinina   | Marina    | women  |  24
+  8 | Kim        | Denis     | men    |  12
+  7 | Ivanov     | Ivan      | men    |  37
+(5 строк)
+
+skypro=# SELECT *  FROM employee
+skypro-# WHERE last_name
+skypro-# LIKE '_____%';
+ id | first_name | last_name | gender | age
+----+------------+-----------+--------+-----
+  3 | Marinina   | Marina    | women  |  24
+  8 | Kim        | Denis     | men    |  12
+(2 строки)
+
+skypro=# UPDATE employee SET last_name='Olga' WHERE id=3;
+UPDATE 1
+skypro=# UPDATE employee SET last_name='Ivan' WHERE id=8;
+UPDATE 1
+skypro=# SELECT *  FROM employee;
+ id | first_name | last_name | gender | age
+----+------------+-----------+--------+-----
+  2 | Pupkin     | Inga      | women  |  15
+  7 | Ivanov     | Ivan      | men    |  37
+  9 | Orlova     | Olga      | women  |   8
+  3 | Marinina   | Olga      | women  |  24
+  8 | Kim        | Ivan      | men    |  12
+(5 строк)
+
+skypro=# SELECT last_name AS Имя,
+skypro-# SUM (age) AS Суммарный_возраст
+skypro-# FROM employee
+skypro-# GROUP BY Имя;
+ Имя  | Суммарный_возраст
+------+-------------------
+ Olga |                32
+ Inga |                15
+ Ivan |                49
+(3 строки)
+
+skypro=# SELECT *  FROM employee
+skypro-# WHERE age = (SELECT MIN (age)
+skypro(# FROM employee
+skypro(# );
+ id | first_name | last_name | gender | age
+----+------------+-----------+--------+-----
+  9 | Orlova     | Olga      | women  |   8
+(1 строка)
