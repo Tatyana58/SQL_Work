@@ -119,3 +119,10 @@ skypro(# );
 ----+------------+-----------+--------+-----
   9 | Orlova     | Olga      | women  |   8
 (1 строка)
+
+skypro=# SELECT last_name, MAX(age) FROM employee GROUP BY last_name HAVING COUNT(*)>1;
+ last_name | max
+-----------+-----
+ Olga      |  24
+ Ivan      |  37
+(2 строки)
