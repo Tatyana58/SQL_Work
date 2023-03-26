@@ -111,6 +111,7 @@ skypro-# GROUP BY Имя;
  Ivan |                49
 (3 строки)
 
+
 skypro=# SELECT *  FROM employee
 skypro-# WHERE age = (SELECT MIN (age)
 skypro(# FROM employee
